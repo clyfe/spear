@@ -2,7 +2,17 @@
 This program discovers experienced users and quality links in a twitter stream based on a topic. It uses the SPEAR algorithm, a variation of PageRank in which we have 2 types of nodes: users and documents, and users link to documents. It is meant for educational purposes.
 
 ### Prerequisites
-The implementation is in [Scala](http://www.scala-lang.org/) and the orchestration is done in [Orc](http://orc.csres.utexas.edu/). We use [Parallel](https://sites.google.com/site/piotrwendykier/software/parallelcolt) [Colt](http://acs.lbl.gov/software/colt/) library for linear algebra computations for SPEAR.
+The implementation is in [Scala](http://www.scala-lang.org/) and the orchestration is done in [Orc](http://orc.csres.utexas.edu/). We use [Parallel](https://sites.google.com/site/piotrwendykier/software/parallelcolt) [Colt](http://acs.lbl.gov/software/colt/) library for linear algebra computations for SPEAR. For dependecies and lifecycle we use [Sbt](http://www.scala-sbt.org/). For versioning we use [Git](http://git-scm.com/).
+
+### Run
+After [Git](http://git-scm.com/) and [Sbt](http://www.scala-sbt.org/) are installed run:
+
+```sh
+sh> git clone git@github.com:clyfe/spear.git
+sh> cd spear
+sh> sbt
+sbt> run src/main/resources/run.orc
+```
 
 ### Implementation
 We implemented an alternate [HTTP](src/main/scala/clyfe/spear/HTTP.scala) site other than the one in the default Orc library. Ours has the property that on HTTP request failure it halts and publishes a signal. This allows us to use the otherwise combinator on failures and do a retry, for example.
