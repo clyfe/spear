@@ -2,7 +2,17 @@
 This program discovers experienced users and quality links in a twitter stream based on a topic. It uses the SPEAR algorithm, a variation of PageRank in which we have 2 types of nodes: users and documents, and users link to documents. It is meant for educational purposes.
 
 ### Prerequisites
-The implementation is in [Scala](http://www.scala-lang.org/) and the orchestration is done in [Orc](http://orc.csres.utexas.edu/). We use [Parallel](https://sites.google.com/site/piotrwendykier/software/parallelcolt) [Colt](http://acs.lbl.gov/software/colt/) library for linear algebra computations for SPEAR.
+The implementation is in [Scala](http://www.scala-lang.org/) and the orchestration is done in [Orc](http://orc.csres.utexas.edu/). We use [Parallel](https://sites.google.com/site/piotrwendykier/software/parallelcolt) [Colt](http://acs.lbl.gov/software/colt/) library for linear algebra computations for SPEAR. For dependecies and lifecycle we use [Sbt](http://www.scala-sbt.org/). For versioning we use [Git](http://git-scm.com/).
+
+### Run
+After [Git](http://git-scm.com/) and [Sbt](http://www.scala-sbt.org/) are installed run:
+
+```sh
+sh> git clone git@github.com:clyfe/spear.git
+sh> cd spear
+sh> sbt
+sbt> run src/main/resources/run.orc
+```
 
 ### Implementation
 We implemented an alternate [HTTP](src/main/scala/clyfe/spear/HTTP.scala) site other than the one in the default Orc library. Ours has the property that on HTTP request failure it halts and publishes a signal. This allows us to use the otherwise combinator on failures and do a retry, for example.
@@ -23,7 +33,7 @@ The orchestration is illustrated in the following picture:
 3. Because these links are shorted to fit in the tweet most of the time, we expand them using the [unshortLink](https://github.com/clyfe/spear/blob/master/src/main/resources/run.orc#L25) function, in parallel via [forkMap](http://orc.csres.utexas.edu/documentation/html/refmanual/refmanual.html#N144FD) thus publishing them one by one. As above, we use a [Semaphore](http://orc.csres.utexas.edu/documentation/html/refmanual/refmanual.html#N14CDB) to do at most K request at one point, so we don't abuse the resources of the expansion service. In case the expansion fails (maybe the expanded link is no longer valid), using the otherwise combinator we just assign a UUID. As such the link will have minimal impact in the SPEAR algorithm. Finally, once the link is unshorted, we publish the tuple (user, link, timestamp).
 4. Using the [collect](http://orc.csres.utexas.edu/documentation/html/refmanual/refmanual.html#N14629) idiom we make a list out of all the published tuples and we feed them to the [Spear](src/main/scala/clyfe/spear/Spear.scala) site - at wich point we start a new tweets collection cycle. The Spear invocation will return a tuple with the ordered users and links that we display.
 
-Note: In an initial version in which I used more primitive versions of combinators, I iterated the program to use [Higher-order Orc programming idioms](http://orc.csres.utexas.edu/documentation/html/refmanual/refmanual.html#ref.stdlib.idioms) making it more readable in the process.
+Note: In an initial version I used more primitive versions of combinators. I iterated the program to use [Higher-order Orc programming idioms](http://orc.csres.utexas.edu/documentation/html/refmanual/refmanual.html#ref.stdlib.idioms) making it more readable in the process.
 
 ### Bibliography
 1. C.-M. Au Yeung, M. G. Noll, N. Gibbins, C. Meinel, N. Shadbolt

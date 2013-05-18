@@ -24,6 +24,7 @@ def tweets() =
 
 -- Expand short url using a third party service.
 -- We unshort at most 10 urls at once, so we don't overload the server.
+-- On failure we use a UUID, with minimum impact on SPEAR result
 val unshortLock = Semaphore(10)
 def unshortLink(short) =
   val unshortService = "http://api.longurl.org/v2/expand?format=json&url="
