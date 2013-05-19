@@ -1,5 +1,5 @@
 ### About
-This program discovers experienced users and quality links in a twitter stream based on a topic. It uses the SPEAR algorithm, a variation of PageRank in which we have 2 types of nodes: users and documents, and users link to documents. It is meant for educational purposes.
+This program discovers experienced users and quality links in a twitter stream based on a topic. It uses the [SPEAR](http://eprints.soton.ac.uk/273196/1/auyeung_noll_coin_spear_2009-07-17.pdf) algorithm, a variation of PageRank in which we have 2 types of nodes: users and documents, and users link to documents. It is meant for educational purposes.
 
 ### Prerequisites
 The implementation is in [Scala](http://www.scala-lang.org/) and the orchestration is done in [Orc](http://orc.csres.utexas.edu/). We use [Parallel](https://sites.google.com/site/piotrwendykier/software/parallelcolt) [Colt](http://acs.lbl.gov/software/colt/) library for linear algebra computations for SPEAR. For dependecies and lifecycle we use [Sbt](http://www.scala-sbt.org/). For versioning we use [Git](http://git-scm.com/).
@@ -37,8 +37,8 @@ Note: In an initial version I used more primitive versions of combinators. I ite
 
 ### Bibliography
 1. C.-M. Au Yeung, M. G. Noll, N. Gibbins, C. Meinel, N. Shadbolt
-**SPEAR: Spamming-resistant Expertise Analysis and Ranking in Collaborative Tagging Systems**
+[SPEAR: Spamming-resistant Expertise Analysis and Ranking in Collaborative Tagging Systems](http://eprints.soton.ac.uk/273196/1/auyeung_noll_coin_spear_2009-07-17.pdf)
 International Journal of Computational Intelligence, Wiley-Blackwell, Volume 27, Issue No. 3, 2011 (Impact Factor: 3.31)
 2. M. G. Noll, C.-M. Au Yeung, N. Gibbins, C. Meinel, N. Shadbolt
-**Telling Experts from Spammers: Expertise Ranking in Folksonomies**
+[Telling Experts from Spammers: Expertise Ranking in Folksonomies](http://eprints.soton.ac.uk/267327/1/sigir09-tagexpert.pdf)
 Proceedings of 32nd ACM SIGIR Conference, Boston, USA, July 2009, pp. 612-619, ISBN 978-1-60558-483-6 [ACM Link](http://dl.acm.org/citation.cfm?id=1571941.1572046)
